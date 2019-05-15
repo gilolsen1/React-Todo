@@ -27,8 +27,23 @@ class App extends React.Component {
     ]
   };
 
+  addTodo = (event, todo) => {
+    event.preventDefault();
+    const newTodo = {
+      task: todo,
+      completed: false,
+      id: Date.now() * 100
+    };
+
+    this.setState({
+      todos: [...this.state.todos, newTodo]
+    });
+  };
+
   onInputChange = event => {
-    console.log(event);
+    this.setState({
+      task: event.target.value
+    });
   };
 
   render() {
@@ -39,7 +54,10 @@ class App extends React.Component {
         })} */}
         <h2>Welcome to your Todo App!</h2>
         <TodoList todos={this.state.todos} />
-        <TodoForm onInputChange={this.onInputChange} />
+        <TodoForm
+          addTodo={event => this.addTodo(event, this.state.task)}
+          onInputChange={this.onInputChange}
+        />
       </div>
     );
   }
